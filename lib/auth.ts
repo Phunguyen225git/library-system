@@ -8,7 +8,7 @@ import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
   // Bỏ qua lỗi type của adapter do khác biệt version (nếu có)
-  adapter: PrismaAdapter(prisma) as any,
+  // adapter: PrismaAdapter(prisma) as any,
   providers: [
     CredentialsProvider({
       name: "Credentials",

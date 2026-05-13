@@ -43,6 +43,7 @@ model Book {
   author        String         @db.VarChar(255)
   coverImage    String?        @db.VarChar(500)
   description   String?        @db.Text
+  image       String?
   totalCopies   Int            @default(1)
   available     Int            @default(1)
   borrowRecords BorrowRecord[]

@@ -71,7 +71,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex h-screen w-full items-center justify-center bg-gray-50">
-      <Card className="w-[400px]">
+      <Card className="w-100">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">
             Đăng Nhập

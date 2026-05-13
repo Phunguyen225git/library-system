@@ -43,6 +43,7 @@ async function main() {
       title: "Clean Code",
       author: "Robert C. Martin",
       description: "Sách gối đầu giường cho lập trình viên.",
+      // image: "/public/imageBooks/cleanCode.avif",
       totalCopies: 5,
       available: 5,
     },
