@@ -17,10 +17,10 @@ export function BookCard({ book }: { book: any }) {
     <Card className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
       <CardHeader className="p-0">
         <div className="h-64 relative w-full overflow-hidden rounded-t-lg border-b">
-          {book.image ? (
+          {book.coverImage ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={book.image}
+              src={book.coverImage}
               alt={book.title}
               className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
             />

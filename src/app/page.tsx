@@ -7,7 +7,7 @@ export default async function Home() {
   // Fetch sách trực tiếp trên Server Component
   const books = await prisma.book.findMany({
     orderBy: { createdAt: "desc" },
-    take: 20, // Hiển thị 20 cuốn mới nhất
+    take: 20, //số lượng Hiển thị cuốn mới nhất ra UI
   });
 
   return (

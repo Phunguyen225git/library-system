@@ -116,7 +116,7 @@ export function BookForm({
                       endpoint="imageUploader"
                       onClientUploadComplete={(res) => {
                         // Upload thành công -> Lấy link ảnh từ Cloud lưu vào Form
-                        field.onChange(res[0].url);
+                        field.onChange(res[0].ufsUrl);
                       }}
                       onUploadError={(error: Error) => {
                         alert(`Lỗi upload: ${error.message}`);
@@ -124,6 +124,20 @@ export function BookForm({
                     />
                   )}
                 </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/*  */}
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Mô tả chi tiết</FormLabel>
+              <FormControl>
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

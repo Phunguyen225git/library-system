@@ -11,7 +11,7 @@ import {
 } from "@/src/components/ui/table";
 import { Button } from "@/src/components/ui/button";
 import { deleteBook } from "@/lib/actions/books";
-import { Edit2, Trash2 } from "lucide-react";
+import { Edit2, Trash2, BookOpen } from "lucide-react";
 
 export function BookTable({
   books,
@@ -31,6 +31,7 @@ export function BookTable({
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="w-[100px] text-center">Hình ảnh</TableHead>
             <TableHead>Tiêu đề</TableHead>
             <TableHead>Tác giả</TableHead>
             <TableHead>Sẵn có</TableHead>
@@ -40,6 +41,22 @@ export function BookTable({
         <TableBody>
           {books.map((book) => (
             <TableRow key={book.id}>
+              <TableCell className="flex justify-center">
+                {book.coverImage ? (
+                  <div className="w-12 h-16 rounded-md overflow-hidden border shadow-sm">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={book.coverImage}
+                      alt={book.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-12 h-16 rounded-md bg-slate-100 border flex items-center justify-center text-slate-400 shadow-sm">
+                    <BookOpen className="w-6 h-6" />
+                  </div>
+                )}
+              </TableCell>
               <TableCell className="font-medium">{book.title}</TableCell>
               <TableCell>{book.author}</TableCell>
               <TableCell>
