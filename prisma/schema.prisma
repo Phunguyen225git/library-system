@@ -1,27 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "mysql"
-}
-//db
-enum Role {
-  USER
-  ADMIN
-}
-
-enum BorrowStatus {
-  PENDING    // Đang chờ duyệt
-  BORROWED   // Đã mượn
-  RETURNED   // Đã trả
-  OVERDUE    // Quá hạn
 }
 
 model User {
@@ -30,11 +13,11 @@ model User {
   email         String?        @unique @db.VarChar(255)
   password      String         @db.VarChar(255)
   role          Role           @default(USER)
-  borrowRecords BorrowRecord[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  borrowRecords BorrowRecord[]
 
-  @@map("users") // Đặt tên bảng số nhiều theo chuẩn convention
+  @@map("users")
 }
 
 model Book {
@@ -43,12 +26,12 @@ model Book {
   author        String         @db.VarChar(255)
   coverImage    String?        @db.VarChar(500)
   description   String?        @db.Text
-  image       String?
   totalCopies   Int            @default(1)
   available     Int            @default(1)
-  borrowRecords BorrowRecord[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  image         String?
+  borrowRecords BorrowRecord[]
 
   @@map("books")
 }
@@ -60,11 +43,22 @@ model BorrowRecord {
   status     BorrowStatus @default(PENDING)
   borrowDate DateTime     @default(now())
   returnDate DateTime?
-  
-  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   book       Book         @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId]) // Index để query lịch sử của user nhanh hơn
-  @@index([bookId]) // Index để query số lượng mượn của 1 cuốn sách nhanh hơn
+  @@index([userId])
+  @@index([bookId])
   @@map("borrow_records")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum BorrowStatus {
+  PENDING
+  BORROWED
+  RETURNED
+  OVERDUE
 }

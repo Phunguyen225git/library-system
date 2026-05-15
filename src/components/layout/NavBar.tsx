@@ -14,7 +14,10 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link
+            href="http://localhost:3000/"
+            className="flex items-center gap-2"
+          >
             <BookOpen className="h-6 w-6 text-blue-600" />
             <span className="font-bold text-xl text-slate-800">ThuVienIT</span>
           </Link>
@@ -31,7 +34,7 @@ export function Navbar() {
                 {/* Nút vào Admin nếu là ADMIN */}
                 {/*eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {(session.user as any)?.role === "ADMIN" && (
-                  <Link href="/admin">
+                  <Link href="/admin/books">
                     <Button variant="outline" size="sm">
                       Quản trị
                     </Button>
@@ -43,7 +46,7 @@ export function Navbar() {
                 </Button>
               </div>
             ) : (
-              <Link href="/login">
+              <Link href="/auth/login">
                 <Button>Đăng nhập</Button>
               </Link>
             )}

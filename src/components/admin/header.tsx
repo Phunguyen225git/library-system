@@ -20,7 +20,7 @@ export function Header() {
         <Button
           variant="outline"
           size="sm"
-          onClick={() => signOut({ callbackUrl: "/login" })}
+          onClick={() => signOut({ callbackUrl: "/auth/login" })}
         >
           <LogOut className="w-4 h-4 mr-2" />
           Đăng xuất
