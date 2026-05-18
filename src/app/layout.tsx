@@ -2,8 +2,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ChatBot } from "@/src/components/chat/chat-bot";
 
-// 1. Import AuthProvider vừa tạo
 import { AuthProvider } from "@/src/components/auth-provider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,6 +23,8 @@ export default function RootLayout({
       <body className={inter.className}>
         {/* 2. Bọc toàn bộ ứng dụng bằng AuthProvider */}
         <AuthProvider>{children}</AuthProvider>
+        {/* UI Chat */}
+        <ChatBot />
       </body>
     </html>
   );
