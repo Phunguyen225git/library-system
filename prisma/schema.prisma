@@ -28,23 +28,35 @@ model Book {
   description   String?        @db.Text
   totalCopies   Int            @default(1)
   available     Int            @default(1)
+  pricePerDay   Float          @default(2000) // 🌟 Thêm: Giá mượn trên mỗi ngày (ví dụ 2.000đ/ngày)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  image         String?
   borrowRecords BorrowRecord[]
 
   @@map("books")
 }
 
 model BorrowRecord {
-  id         String       @id @default(cuid())
-  userId     String
-  bookId     String
-  status     BorrowStatus @default(PENDING)
-  borrowDate DateTime     @default(now())
-  returnDate DateTime?
-  book       Book         @relation(fields: [bookId], references: [id], onDelete: Cascade)
-  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id            String       @id @default(cuid())
+  userId        String
+  bookId        String
+  
+  // Thời gian
+  borrowDate    DateTime     @default(now()) // Ngày bắt đầu mượn
+  dueDate       DateTime                      // Ngày phải trả (Hệ thống tự tính toán)
+  returnDate    DateTime?                     // Ngày thực tế trả sách
+
+  // Tài chính & Phương thức thanh toán
+  paymentMethod PaymentMethod                 // 🌟 CASH (Tiền mặt) hoặc BANK_TRANSFER (Chuyển khoản)
+  amount        Float        @default(0)      // Phí mượn gốc tính theo số ngày chọn
+  fineAmount    Float        @default(0)      // Tiền phạt cộng dồn nếu quá hạn
+  
+  // Trạng thái phiếu
+  status        BorrowStatus @default(PENDING_PAYMENT)
+  
+  // Quan hệ giữa các bảng
+  book          Book         @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([bookId])
@@ -56,9 +68,15 @@ enum Role {
   ADMIN
 }
 
+enum PaymentMethod {
+  CASH           // Tiền mặt tại quầy
+  BANK_TRANSFER  // Chuyển khoản qua QR ngân hàng
+}
+
 enum BorrowStatus {
-  PENDING
-  BORROWED
-  RETURNED
-  OVERDUE
+  PENDING_PAYMENT // Chờ thanh toán (Dành cho Chuyển khoản)
+  AWAITING_PICKUP // Đã duyệt/Chờ ra quầy nhận sách (Dành cho Tiền mặt hoặc CK thành công)
+  BORROWED        // Đang cầm sách (Thủ thư đã giao sách)
+  RETURNED        // Đã trả sách thành công, kết thúc phiếu
+  OVERDUE         // Đang quá hạn chưa trả sách
 }

@@ -49,20 +49,39 @@ export function ChatBot() {
       content: input,
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    // 1. Đẩy tin nhắn của User lên màn hình trước
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setInput("");
     setIsLoading(true);
 
-    // GIẢ LẬP PHẢN HỒI TỪ AI (Sẽ thay thế bằng API LangGraph/RAG sau)
-    setTimeout(() => {
+    try {
+      // 2. Gọi API Route chúng ta vừa tạo ở Bước 2
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: updatedMessages }), // Gửi toàn bộ lịch sử chat lên để AI hiểu ngữ cảnh
+      });
+
+      const data = await response.json();
+
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
+
+      // 3. Nhận câu trả lời THẬT từ AI và hiển thị lên màn hình
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: `Cảm ơn bạn đã nhắn: "${userMessage.content}". Hệ thống AI (LangChain + RAG) của chúng ta đang được kết nối ngầm. Tính năng phản hồi thông minh sẽ hoạt động ở bước tiếp theo!`,
+        content: data.content,
       };
       setMessages((prev) => [...prev, aiMessage]);
+    } catch (error) {
+      alert("Không thể kết nối với máy chủ AI.");
+    } finally {
       setIsLoading(false);
-    }, 1200);
+    }
   };
 
   return (
