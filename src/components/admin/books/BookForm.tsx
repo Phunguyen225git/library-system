@@ -16,8 +16,8 @@ import {
   FormMessage,
 } from "@/src/components/ui/form";
 import { useState } from "react";
-import { UploadButton } from "@/lib/uploadthing"; // Import nút upload vừa tạo
-import { X } from "lucide-react"; // Import icon nút xóa
+import { UploadButton } from "@/lib/uploadthing";
+import { X } from "lucide-react";
 
 const bookSchema = z.object({
   title: z.string().min(1, "Tiêu đề không được để trống"),
@@ -25,6 +25,7 @@ const bookSchema = z.object({
   description: z.string().optional(),
   image: z.string().optional(),
   totalCopies: z.coerce.number().min(1, "Số lượng ít nhất là 1"),
+  pricePerDay: z.coerce.number().min(0, "Giá thuê không được âm"),
 });
 
 export function BookForm({
@@ -44,6 +45,7 @@ export function BookForm({
       description: "",
       image: "",
       totalCopies: 1,
+      pricePerDay: 0,
     },
   });
 
@@ -56,6 +58,7 @@ export function BookForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        {/* Tiêu đề  */}
         <FormField
           control={form.control}
           name="title"
@@ -69,7 +72,7 @@ export function BookForm({
             </FormItem>
           )}
         />
-
+        {/* Tác giả */}
         <FormField
           control={form.control}
           name="author"
@@ -129,7 +132,7 @@ export function BookForm({
             </FormItem>
           )}
         />
-        {/*  */}
+        {/* Mô tả chi tiết */}
         <FormField
           control={form.control}
           name="description"
@@ -143,13 +146,27 @@ export function BookForm({
             </FormItem>
           )}
         />
-
+        {/* Số lượng sách còn trong kho */}
         <FormField
           control={form.control}
           name="totalCopies"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Số lượng tổng</FormLabel>
+              <FormControl>
+                <Input type="number" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Giá thuê sách */}
+        <FormField
+          control={form.control}
+          name="pricePerDay"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Giá thuê mỗi ngày</FormLabel>
               <FormControl>
                 <Input type="number" {...field} />
               </FormControl>

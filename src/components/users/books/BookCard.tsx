@@ -8,6 +8,7 @@ import {
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
 import { BookOpen } from "lucide-react";
+import Link from "next/link";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function BookCard({ book }: { book: any }) {
@@ -58,9 +59,11 @@ export function BookCard({ book }: { book: any }) {
       </CardContent>
 
       <CardFooter className="p-4 pt-0">
-        <Button className="w-full" disabled={!isAvailable}>
-          {isAvailable ? "Đăng ký mượn" : "Đang chờ trả"}
-        </Button>
+        <Link href={`/borrow?bookId=${book.id}`} className="w-full">
+          <Button className="w-full" disabled={!isAvailable}>
+            {isAvailable ? "Đăng ký mượn" : "Đang chờ trả"}
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );

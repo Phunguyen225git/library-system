@@ -7,7 +7,15 @@ interface BorrowFormProps {
   pricePerDay: number;
 }
 
-export default function BorrowForm({ pricePerDay }: BorrowFormProps) {
+export default function BorrowForm({
+  bookId,
+  pricePerDay = 0,
+  userId = "user999",
+}: {
+  bookId: string;
+  pricePerDay: number;
+  userId?: string;
+}) {
   const [rentDays, setRentDays] = useState<number>(7);
   const [payMethod, setPayMethod] = useState<string>("CASH");
   const [createdRecord, setCreatedRecord] = useState<any>(null);
@@ -43,7 +51,8 @@ export default function BorrowForm({ pricePerDay }: BorrowFormProps) {
         📝 Đăng Ký Mượn Sách Mới
       </h2>
       <div className="p-3 bg-indigo-50 border border-indigo-100 rounded-xl mb-4 text-sm text-indigo-900">
-        <strong>Đơn giá mượn:</strong> {pricePerDay.toLocaleString()}đ / ngày
+        <strong>Đơn giá mượn:</strong>{" "}
+        {pricePerDay ? pricePerDay.toLocaleString() : "0"}đ / ngày
       </div>
 
       <div className="mb-4">

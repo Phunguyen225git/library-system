@@ -1,6 +1,7 @@
 // src/app/admin/layout.tsx
-import { Sidebar } from "@/src/components/admin/sidebar";
-import { Header } from "@/src/components/admin/header";
+import { SidebarProvider } from "@/src/components/ui/sidebar";
+import { AppSidebar } from "@/src/components/admin/sidebar";
+import { Header } from "@/src/components/admin/header"; // 🌟 Import đúng file Header của bạn vào đây
 
 export default function AdminLayout({
   children,
@@ -8,17 +9,20 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-slate-50">
-      {/* Cột bên trái: Sidebar */}
-      <Sidebar />
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full bg-slate-50 dark:bg-slate-950">
+        {/* Thanh điều hướng dọc bên trái */}
+        <AppSidebar />
 
-      {/* Cột bên phải: Chứa Header và Nội dung thay đổi (children) */}
-      <div className="flex-1 flex flex-col">
-        <Header />
+        {/* Khối nội dung chính bên phải */}
+        <main className="flex-1 flex flex-col min-w-0">
+          {/* 🌟 Gọi Header xịn của bạn ở đây (Đã chứa sẵn nút bấm SidebarTrigger bên trong) */}
+          <Header />
 
-        {/* Vùng hiển thị nội dung của từng trang (ví dụ: page quản lý sách) */}
-        <main className="flex-1 overflow-auto">{children}</main>
+          {/* Nội dung ruột thay đổi theo từng trang con */}
+          <div className="p-6 overflow-y-auto flex-1">{children}</div>
+        </main>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }

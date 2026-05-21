@@ -28,7 +28,7 @@ model Book {
   description   String?        @db.Text
   totalCopies   Int            @default(1)
   available     Int            @default(1)
-  pricePerDay   Float          @default(2000) // 🌟 Thêm: Giá mượn trên mỗi ngày (ví dụ 2.000đ/ngày)
+  pricePerDay   Float          @default(10000)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   borrowRecords BorrowRecord[]

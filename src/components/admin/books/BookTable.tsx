@@ -31,10 +31,11 @@ export function BookTable({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px] text-center">Hình ảnh</TableHead>
+            <TableHead className="w-25 text-center">Hình ảnh</TableHead>
             <TableHead>Tiêu đề</TableHead>
             <TableHead>Tác giả</TableHead>
             <TableHead>Sẵn có</TableHead>
+            <TableHead>Giá thuê</TableHead>
             <TableHead className="text-right">Thao tác</TableHead>
           </TableRow>
         </TableHeader>
@@ -62,6 +63,7 @@ export function BookTable({
               <TableCell>
                 {book.available} / {book.totalCopies}
               </TableCell>
+              <TableCell>{book.pricePerDay}</TableCell>
               <TableCell className="text-right space-x-2">
                 <Button
                   variant="outline"

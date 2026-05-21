@@ -1,78 +1,91 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// src/app/api/borrow/create/route.ts
 import { NextResponse } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai"; // (Giữ thư viện gốc phòng sau này dùng)
+import { prisma } from "@/lib/prisma"; // 🌟 Đồng bộ gọi instance gốc
 
-// Giả lập kết nối DB để bạn dễ hình dung logic
 export async function POST(req: Request) {
   try {
     const { userId, bookId, rentDays, paymentMethod } = await req.json();
 
     if (!userId || !bookId || !rentDays || !paymentMethod) {
       return NextResponse.json(
-        { error: "Thiếu thông tin đăng ký!" },
+        { error: "Thiếu thông tin đăng ký bắt buộc!" },
         { status: 400 }
       );
     }
 
-    // 1. Giả định lấy thông tin sách từ DB để biết giá tiền/ngày (Ví dụ lấy sách lập trình)
-    const pricePerDay = 3000; // Giả sử cuốn này giá 3.000đ một ngày mượn
-    const bookTitle = "Lập trình Next.js từ cơ bản đến nâng cao";
+    const book = await prisma.book.findUnique({
+      where: { id: bookId },
+    });
 
-    // 2. Tính toán tiền nong và ngày hẹn trả
-    const totalAmount = pricePerDay * parseInt(rentDays);
+    if (!book) {
+      return NextResponse.json(
+        { error: "Không tìm thấy sách này!" },
+        { status: 404 }
+      );
+    }
+
+    if (book.available <= 0) {
+      return NextResponse.json(
+        { error: "Sách này hiện tại đã hết!" },
+        { status: 400 }
+      );
+    }
+
+    const totalAmount = book.pricePerDay * parseInt(rentDays);
     const borrowDate = new Date();
     const dueDate = new Date();
     dueDate.setDate(borrowDate.getDate() + parseInt(rentDays));
 
-    // Tạo mã phiếu mượn ngẫu nhiên
-    const recordId = "BR" + Math.floor(100000 + Math.random() * 900000);
+    const statusBanDau =
+      paymentMethod === "CASH" ? "AWAITING_PICKUP" : "PENDING_PAYMENT";
 
-    // 3. Xử lý theo từng Phương thức thanh toán độc giả chọn
+    // Lưu vào MariaDB qua adapter Singleton của bạn
+    const newRecord = await prisma.borrowRecord.create({
+      data: {
+        userId,
+        bookId,
+        borrowDate,
+        dueDate,
+        paymentMethod,
+        amount: totalAmount,
+        status: statusBanDau,
+      },
+      include: { book: true },
+    });
+
     if (paymentMethod === "CASH") {
-      return NextResponse.json({
-        success: true,
-        message:
-          "Đăng ký thành công! Vui lòng đến quầy thư viện thanh toán tiền mặt để nhận sách.",
-        data: {
-          recordId,
-          amount: totalAmount,
-          status: "AWAITING_PICKUP", // Chờ ra quầy thanh toán trực tiếp rồi lấy sách
-          dueDate: dueDate.toISOString(),
-        },
+      await prisma.book.update({
+        where: { id: bookId },
+        data: { available: { decrement: 1 } },
       });
-    }
-
-    if (paymentMethod === "BANK_TRANSFER") {
-      // Thiết lập thông tin Ngân hàng của bạn nhận tiền cọc/phí mượn
-      const BANK_ID = "MB"; // Ngân hàng Quân Đội (Hoặc VCB, TCB...)
-      const ACCOUNT_NO = "0987654321"; // STK của bạn
-      const ACCOUNT_NAME = "NGUYEN TRONG PHU";
-      const description = `MUONSACH ${recordId}`; // Cú pháp để hệ thống nhận diện tự động
-
-      // Sinh mã QR điền sẵn SỐ TIỀN và NỘI DUNG CHUYỂN KHOẢN
-      const qrCodeUrl = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-qr_only.png?amount=${totalAmount}&addInfo=${encodeURIComponent(
-        description
-      )}&accountName=${encodeURIComponent(ACCOUNT_NAME)}`;
 
       return NextResponse.json({
         success: true,
-        message: "Vui lòng quét mã QR để thanh toán chuyển khoản.",
-        data: {
-          recordId,
-          amount: totalAmount,
-          status: "PENDING_PAYMENT", // Chờ hệ thống quét nhận được tiền
-          dueDate: dueDate.toISOString(),
-          qrCodeUrl,
-          description,
-        },
+        message: "Đăng ký thành công! Vui lòng ra quầy đóng tiền mặt.",
+        data: newRecord,
       });
     }
 
-    return NextResponse.json(
-      { error: "Phương thức thanh toán không hợp lệ" },
-      { status: 400 }
-    );
+    // Xử lý chuyển khoản VietQR
+    const BANK_ID = "MB";
+    const ACCOUNT_NO = "0987654321";
+    const ACCOUNT_NAME = "NGUYEN TRONG PHU";
+    const description = `MUONSACH ${newRecord.id}`;
+
+    const qrCodeUrl = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-qr_only.png?amount=${totalAmount}&addInfo=${encodeURIComponent(
+      description
+    )}&accountName=${encodeURIComponent(ACCOUNT_NAME)}`;
+
+    return NextResponse.json({
+      success: true,
+      message: "Quét mã QR để chuyển khoản",
+      data: { ...newRecord, qrCodeUrl, description },
+    });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("❌ LỖI API:", error);
+    return NextResponse.json(
+      { error: "Lỗi kết nối cơ sở dữ liệu MariaDB!" },
+      { status: 500 }
+    );
   }
 }

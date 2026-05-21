@@ -1,7 +1,7 @@
 // lib/prisma.ts
 import "dotenv/config";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import { PrismaClient } from "../src/app/generated/prisma/client";
+import { PrismaClient } from "../src/generated/prisma/client";
 
 // Khởi tạo Singleton để tránh lỗi Too many connections khi dev trong Next.js
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
