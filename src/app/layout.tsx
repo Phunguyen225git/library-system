@@ -33,6 +33,7 @@
 // src/app/layout.tsx
 import "@/src/app/globals.css"; // Hoặc đường dẫn css của bạn
 import { AppProviders } from "@/src/components/auth-provider";
+// import { ThemeProvider } from "@/src/components/theme-provider";
 
 export const metadata = {
   title: "Hệ thống quản lý thư viện điện tử v2.0",
@@ -45,10 +46,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="vi">
+    <html lang="vi" suppressHydrationWarning>
       <body>
         {/* 🌟 Bọc cục bộ tất cả các cấu hình Session, Tooltip tại đây */}
         <AppProviders>{children}</AppProviders>
+        {/* <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider> */}
       </body>
     </html>
   );

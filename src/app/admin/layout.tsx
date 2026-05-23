@@ -10,7 +10,7 @@ export default function AdminLayout({
 }) {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-slate-50 dark:bg-slate-950">
+      <div className="flex min-h-screen w-full bg-slate-50 dark:bg-slate-950 transition-colors">
         {/* Thanh điều hướng dọc bên trái */}
         <AppSidebar />
 

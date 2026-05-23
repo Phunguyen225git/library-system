@@ -48,83 +48,88 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* src/app/globals.css */
+
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: 210 40% 98%; /* Sáng: Màu nền xám xanh nhẹ, dịu mắt không bị chói đục */
+  --foreground: 222.2 84% 4.9%; /* Sáng: Màu chữ xanh đen đậm, cực kỳ sắc nét */
+
+  --card: 0 0% 100%; /* Sáng: Thẻ Card trắng tinh khôi nổi bật trên nền xám nhẹ */
+  --card-foreground: 222.2 84% 4.9%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+
+  --primary: 243.4 75.4% 58.6%; /* Sáng: Màu chủ đạo Indigo (Xanh tím) hoàng gia rất sang */
+  --primary-foreground: 210 40% 98%;
+
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+
+  --muted: 210 40% 93%;
+  --muted-foreground: 215.4 16.3% 44%;
+
+  --accent: 210 40% 93.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 214.3 31.8% 91.4%; /* Sáng: Đường viền mảnh, rõ ràng chia cắt không gian */
+  --input: 214.3 31.8% 91.4%;
+  --ring: 243.4 75.4% 58.6%;
+
+  --radius: 0.75rem; /* Bo góc 12px hiện đại cho toàn bộ nút và thẻ */
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: 222.2 47.4% 9.5%; /* Tối: Xanh rêu đen sâu thẳm (Deep Slate Blue) như các app cao cấp Apple/Linear, tuyệt đối không dùng màu đen tuyền thô thiển */
+  --foreground: 210 40% 98%; /* Tối: Chữ trắng sữa dịu, không bị loá mắt */
+
+  --card: 222.2 47.4% 11.5%; /* Tối: Thẻ Card sáng hơn nền 1 chút tạo độ tương phản layer nổi khối 3D */
+  --card-foreground: 210 40% 98%;
+
+  --popover: 222.2 47.4% 11.5%;
+  --popover-foreground: 210 40% 98%;
+
+  --primary: 250 95% 68%; /* Tối: Neon Indigo rực rỡ, phát sáng cực kỳ nổi bật trên nền tối */
+  --primary-foreground: 222.2 47.4% 9.5%;
+
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 217.2 32.6% 18%; /* Tối: Đường viền tối mượt mà, hòa quyện với linh kiện */
+  --input: 217.2 32.6% 17.5%;
+  --ring: 250 95% 68%;
 }
 
+/* 🎨 Sửa luôn chi tiết nhỏ nhất: Thanh cuộn (Scrollbar) theo Theme tự động */
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
   }
-  html {
-    @apply font-sans;
+
+  /* Tùy chỉnh thanh cuộn siêu mảnh nghệ thuật */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 dark:bg-slate-800 rounded-full hover:bg-slate-400 dark:hover:bg-slate-700 transition-colors;
   }
 }

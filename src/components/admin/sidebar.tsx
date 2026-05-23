@@ -70,7 +70,7 @@ export function AppSidebar() {
   return (
     <Sidebar
       collapsible="icon"
-      className="border-r border-slate-200 dark:border-slate-800 bg-slate-900 text-slate-200"
+      className="border-r border-border bg-card dark:bg-slate-950 text-card-foreground transition-colors duration-300"
     >
       {/* 1. SIDEBAR HEADER: Logo và Tên Hệ Thống */}
       <SidebarHeader className="h-16 flex items-center justify-start px-4 border-b border-slate-800">
