@@ -19,13 +19,13 @@ export function ThemeToggle() {
     >
       {/* Icon Mặt trời: Hiển thị ở chế độ Light, ẩn ở chế độ Dark */}
       <Sun
-        className="h-[22px] w-[22px] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-amber-500"
+        className="h-5.5 w-5.5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-amber-500"
         strokeWidth={2.2}
       />
 
       {/* Icon Mặt trăng: Ẩn ở chế độ Light, hiển thị ở chế độ Dark */}
       <Moon
-        className="h-[22px] w-[22px] absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-indigo-400"
+        className="h-5.5 w-5.5 absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-indigo-400"
         strokeWidth={2.2}
       />
 

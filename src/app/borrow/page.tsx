@@ -1,5 +1,5 @@
 // src/app/borrow/page.tsx
-import { prisma } from "@/lib/prisma"; // 🌟 Dùng chính xác file gốc của bạn, không import bừa bãi nữa
+import { prisma } from "@/lib/prisma";
 import BookDetail from "@/src/components/users/borrow/BookDetail";
 import BorrowForm from "@/src/components/users/borrow/BorrowForm";
 import CountdownWidget from "@/src/components/users/borrow/CountdownWidget";

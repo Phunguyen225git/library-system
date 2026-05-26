@@ -171,12 +171,11 @@ export function AppSidebar() {
                   <UserCheck className="h-4 w-4 text-slate-400" />
                   Hồ sơ cá nhân
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-rose-400 hover:bg-rose-500/10 hover:text-rose-400 cursor-pointer transition-colors"
-                  onClick={() => alert("Đang xử lý đăng xuất...")}
-                >
-                  <LogOut className="h-4 w-4" />
-                  Đăng xuất hệ thống
+                <DropdownMenuItem className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-rose-400 hover:bg-rose-500/10 hover:text-rose-400 cursor-pointer transition-colors">
+                  <Link href="http://localhost:3000/">
+                    <LogOut className="h-4 w-4" />
+                    Đăng xuất hệ thống
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

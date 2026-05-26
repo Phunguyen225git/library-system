@@ -41,15 +41,18 @@ model BorrowRecord {
   userId        String
   bookId        String
   
+  // 🌟 THÊM TRƯỜNG NÀY: Để lưu vết mã nội dung CK VietQR (Ví dụ: LIB24xxx)
+  paymentCode   String?      @unique 
+
   // Thời gian
-  borrowDate    DateTime     @default(now()) // Ngày bắt đầu mượn
-  dueDate       DateTime                      // Ngày phải trả (Hệ thống tự tính toán)
-  returnDate    DateTime?                     // Ngày thực tế trả sách
+  borrowDate    DateTime     @default(now()) 
+  dueDate       DateTime                      
+  returnDate    DateTime?                     
 
   // Tài chính & Phương thức thanh toán
-  paymentMethod PaymentMethod                 // 🌟 CASH (Tiền mặt) hoặc BANK_TRANSFER (Chuyển khoản)
-  amount        Float        @default(0)      // Phí mượn gốc tính theo số ngày chọn
-  fineAmount    Float        @default(0)      // Tiền phạt cộng dồn nếu quá hạn
+  paymentMethod PaymentMethod                 
+  amount        Float        @default(0)      
+  fineAmount    Float        @default(0)      
   
   // Trạng thái phiếu
   status        BorrowStatus @default(PENDING_PAYMENT)

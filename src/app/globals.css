@@ -80,6 +80,19 @@
   --ring: 243.4 75.4% 58.6%;
 
   --radius: 0.75rem; /* Bo góc 12px hiện đại cho toàn bộ nút và thẻ */
+  --chart-1: 16 93% 54%; /* Màu Cam rực rỡ cho cột Total (HSL của #e65100 hoặc tương đương) */
+  --chart-2: 43 100% 50%; /* Màu Vàng nắng cho cột Successful */
+  --background: 210 40% 98%; /* Sáng: Nền xám xanh nhẹ, dịu mắt, cực kỳ sang trọng */
+  --foreground: 222.2 84% 4.9%; /* Sáng: Chữ xanh đen đậm, sắc nét */
+
+  --card: 0 0% 100%; /* Sáng: Thẻ Card trắng tinh khôi nổi bật trên nền xám */
+  --card-foreground: 222.2 84% 4.9%;
+
+  --sidebar: 0 0% 100%; /* Sáng: Sidebar trắng đồng bộ */
+  --sidebar-foreground: 222.2 84% 4.9%;
+
+  --border: 214.3 31.8% 91.4%; /* Đường viền mỏng tinh tế */
+  --primary: 243.4 75.4% 58.6%; /* Màu chủ đạo Indigo hoàng gia */
 }
 
 .dark {
@@ -110,6 +123,20 @@
   --border: 217.2 32.6% 18%; /* Tối: Đường viền tối mượt mà, hòa quyện với linh kiện */
   --input: 217.2 32.6% 17.5%;
   --ring: 250 95% 68%;
+  --chart-1: 221 100% 50%; /* Màu Xanh Cyber (Electric Blue) rực rỡ */
+  --chart-2: 283 100% 60%; /* Màu Tím khói/Neon Purple cá tính */
+  /* 🌙 DARK MODE CAO CẤP: Tone màu Charcoal & Deep Slate tinh tế */
+  --background: 224 71% 4%; /* Tối: Nền đen sâu thẳm cực kỳ cuốn hút */
+  --foreground: 210 40% 98%; /* Tối: Chữ trắng sữa chống mỏi mắt */
+
+  --card: 222.2 47.4% 11.2%; /* Tối: Thẻ Card sáng hơn nền 1 tone tạo layer 3D nổi khối */
+  --card-foreground: 210 40% 98%;
+
+  --sidebar: 222.2 47.4% 9.5%; /* Tối: Sidebar tối hẳn ra */
+  --sidebar-foreground: 210 40% 98%;
+
+  --border: 217.2 32.6% 16%; /* Tối: Đường viền tối mượt, hòa quyện vào nền */
+  --primary: 250 95% 68%; /* Tối: Neon Indigo phát sáng rực rỡ */
 }
 
 /* 🎨 Sửa luôn chi tiết nhỏ nhất: Thanh cuộn (Scrollbar) theo Theme tự động */
@@ -119,6 +146,9 @@
   }
   body {
     @apply bg-background text-foreground transition-colors duration-300;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    transition: background-color 0.3s ease, border-color 0.3s ease,
+      color 0.3s ease;
   }
 
   /* Tùy chỉnh thanh cuộn siêu mảnh nghệ thuật */
