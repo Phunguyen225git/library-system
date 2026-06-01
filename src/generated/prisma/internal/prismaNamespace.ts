@@ -676,6 +676,7 @@ export const BorrowRecordScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   bookId: 'bookId',
+  paymentCode: 'paymentCode',
   borrowDate: 'borrowDate',
   dueDate: 'dueDate',
   returnDate: 'returnDate',
@@ -728,7 +729,8 @@ export type BookOrderByRelevanceFieldEnum = (typeof BookOrderByRelevanceFieldEnu
 export const BorrowRecordOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
-  bookId: 'bookId'
+  bookId: 'bookId',
+  paymentCode: 'paymentCode'
 } as const
 
 export type BorrowRecordOrderByRelevanceFieldEnum = (typeof BorrowRecordOrderByRelevanceFieldEnum)[keyof typeof BorrowRecordOrderByRelevanceFieldEnum]

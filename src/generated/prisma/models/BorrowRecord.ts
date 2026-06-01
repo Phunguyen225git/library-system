@@ -40,6 +40,7 @@ export type BorrowRecordMinAggregateOutputType = {
   id: string | null
   userId: string | null
   bookId: string | null
+  paymentCode: string | null
   borrowDate: Date | null
   dueDate: Date | null
   returnDate: Date | null
@@ -53,6 +54,7 @@ export type BorrowRecordMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   bookId: string | null
+  paymentCode: string | null
   borrowDate: Date | null
   dueDate: Date | null
   returnDate: Date | null
@@ -66,6 +68,7 @@ export type BorrowRecordCountAggregateOutputType = {
   id: number
   userId: number
   bookId: number
+  paymentCode: number
   borrowDate: number
   dueDate: number
   returnDate: number
@@ -91,6 +94,7 @@ export type BorrowRecordMinAggregateInputType = {
   id?: true
   userId?: true
   bookId?: true
+  paymentCode?: true
   borrowDate?: true
   dueDate?: true
   returnDate?: true
@@ -104,6 +108,7 @@ export type BorrowRecordMaxAggregateInputType = {
   id?: true
   userId?: true
   bookId?: true
+  paymentCode?: true
   borrowDate?: true
   dueDate?: true
   returnDate?: true
@@ -117,6 +122,7 @@ export type BorrowRecordCountAggregateInputType = {
   id?: true
   userId?: true
   bookId?: true
+  paymentCode?: true
   borrowDate?: true
   dueDate?: true
   returnDate?: true
@@ -217,6 +223,7 @@ export type BorrowRecordGroupByOutputType = {
   id: string
   userId: string
   bookId: string
+  paymentCode: string | null
   borrowDate: Date
   dueDate: Date
   returnDate: Date | null
@@ -253,6 +260,7 @@ export type BorrowRecordWhereInput = {
   id?: Prisma.StringFilter<"BorrowRecord"> | string
   userId?: Prisma.StringFilter<"BorrowRecord"> | string
   bookId?: Prisma.StringFilter<"BorrowRecord"> | string
+  paymentCode?: Prisma.StringNullableFilter<"BorrowRecord"> | string | null
   borrowDate?: Prisma.DateTimeFilter<"BorrowRecord"> | Date | string
   dueDate?: Prisma.DateTimeFilter<"BorrowRecord"> | Date | string
   returnDate?: Prisma.DateTimeNullableFilter<"BorrowRecord"> | Date | string | null
@@ -268,6 +276,7 @@ export type BorrowRecordOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   bookId?: Prisma.SortOrder
+  paymentCode?: Prisma.SortOrderInput | Prisma.SortOrder
   borrowDate?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   returnDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -282,6 +291,7 @@ export type BorrowRecordOrderByWithRelationInput = {
 
 export type BorrowRecordWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  paymentCode?: string
   AND?: Prisma.BorrowRecordWhereInput | Prisma.BorrowRecordWhereInput[]
   OR?: Prisma.BorrowRecordWhereInput[]
   NOT?: Prisma.BorrowRecordWhereInput | Prisma.BorrowRecordWhereInput[]
@@ -296,12 +306,13 @@ export type BorrowRecordWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumBorrowStatusFilter<"BorrowRecord"> | $Enums.BorrowStatus
   book?: Prisma.XOR<Prisma.BookScalarRelationFilter, Prisma.BookWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id">
+}, "id" | "paymentCode">
 
 export type BorrowRecordOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   bookId?: Prisma.SortOrder
+  paymentCode?: Prisma.SortOrderInput | Prisma.SortOrder
   borrowDate?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   returnDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -323,6 +334,7 @@ export type BorrowRecordScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"BorrowRecord"> | string
   userId?: Prisma.StringWithAggregatesFilter<"BorrowRecord"> | string
   bookId?: Prisma.StringWithAggregatesFilter<"BorrowRecord"> | string
+  paymentCode?: Prisma.StringNullableWithAggregatesFilter<"BorrowRecord"> | string | null
   borrowDate?: Prisma.DateTimeWithAggregatesFilter<"BorrowRecord"> | Date | string
   dueDate?: Prisma.DateTimeWithAggregatesFilter<"BorrowRecord"> | Date | string
   returnDate?: Prisma.DateTimeNullableWithAggregatesFilter<"BorrowRecord"> | Date | string | null
@@ -334,6 +346,7 @@ export type BorrowRecordScalarWhereWithAggregatesInput = {
 
 export type BorrowRecordCreateInput = {
   id?: string
+  paymentCode?: string | null
   borrowDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -349,6 +362,7 @@ export type BorrowRecordUncheckedCreateInput = {
   id?: string
   userId: string
   bookId: string
+  paymentCode?: string | null
   borrowDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -360,6 +374,7 @@ export type BorrowRecordUncheckedCreateInput = {
 
 export type BorrowRecordUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   borrowDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -375,6 +390,7 @@ export type BorrowRecordUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   borrowDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -388,6 +404,7 @@ export type BorrowRecordCreateManyInput = {
   id?: string
   userId: string
   bookId: string
+  paymentCode?: string | null
   borrowDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -399,6 +416,7 @@ export type BorrowRecordCreateManyInput = {
 
 export type BorrowRecordUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   borrowDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -412,6 +430,7 @@ export type BorrowRecordUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   borrowDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -441,6 +460,7 @@ export type BorrowRecordCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   bookId?: Prisma.SortOrder
+  paymentCode?: Prisma.SortOrder
   borrowDate?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   returnDate?: Prisma.SortOrder
@@ -459,6 +479,7 @@ export type BorrowRecordMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   bookId?: Prisma.SortOrder
+  paymentCode?: Prisma.SortOrder
   borrowDate?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   returnDate?: Prisma.SortOrder
@@ -472,6 +493,7 @@ export type BorrowRecordMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   bookId?: Prisma.SortOrder
+  paymentCode?: Prisma.SortOrder
   borrowDate?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   returnDate?: Prisma.SortOrder
@@ -584,6 +606,7 @@ export type EnumBorrowStatusFieldUpdateOperationsInput = {
 
 export type BorrowRecordCreateWithoutUserInput = {
   id?: string
+  paymentCode?: string | null
   borrowDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -597,6 +620,7 @@ export type BorrowRecordCreateWithoutUserInput = {
 export type BorrowRecordUncheckedCreateWithoutUserInput = {
   id?: string
   bookId: string
+  paymentCode?: string | null
   borrowDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -639,6 +663,7 @@ export type BorrowRecordScalarWhereInput = {
   id?: Prisma.StringFilter<"BorrowRecord"> | string
   userId?: Prisma.StringFilter<"BorrowRecord"> | string
   bookId?: Prisma.StringFilter<"BorrowRecord"> | string
+  paymentCode?: Prisma.StringNullableFilter<"BorrowRecord"> | string | null
   borrowDate?: Prisma.DateTimeFilter<"BorrowRecord"> | Date | string
   dueDate?: Prisma.DateTimeFilter<"BorrowRecord"> | Date | string
   returnDate?: Prisma.DateTimeNullableFilter<"BorrowRecord"> | Date | string | null
@@ -650,6 +675,7 @@ export type BorrowRecordScalarWhereInput = {
 
 export type BorrowRecordCreateWithoutBookInput = {
   id?: string
+  paymentCode?: string | null
   borrowDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -663,6 +689,7 @@ export type BorrowRecordCreateWithoutBookInput = {
 export type BorrowRecordUncheckedCreateWithoutBookInput = {
   id?: string
   userId: string
+  paymentCode?: string | null
   borrowDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -701,6 +728,7 @@ export type BorrowRecordUpdateManyWithWhereWithoutBookInput = {
 export type BorrowRecordCreateManyUserInput = {
   id?: string
   bookId: string
+  paymentCode?: string | null
   borrowDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -712,6 +740,7 @@ export type BorrowRecordCreateManyUserInput = {
 
 export type BorrowRecordUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   borrowDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -725,6 +754,7 @@ export type BorrowRecordUpdateWithoutUserInput = {
 export type BorrowRecordUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   borrowDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -737,6 +767,7 @@ export type BorrowRecordUncheckedUpdateWithoutUserInput = {
 export type BorrowRecordUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   borrowDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -749,6 +780,7 @@ export type BorrowRecordUncheckedUpdateManyWithoutUserInput = {
 export type BorrowRecordCreateManyBookInput = {
   id?: string
   userId: string
+  paymentCode?: string | null
   borrowDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -760,6 +792,7 @@ export type BorrowRecordCreateManyBookInput = {
 
 export type BorrowRecordUpdateWithoutBookInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   borrowDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -773,6 +806,7 @@ export type BorrowRecordUpdateWithoutBookInput = {
 export type BorrowRecordUncheckedUpdateWithoutBookInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   borrowDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -785,6 +819,7 @@ export type BorrowRecordUncheckedUpdateWithoutBookInput = {
 export type BorrowRecordUncheckedUpdateManyWithoutBookInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   borrowDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -800,6 +835,7 @@ export type BorrowRecordSelect<ExtArgs extends runtime.Types.Extensions.Internal
   id?: boolean
   userId?: boolean
   bookId?: boolean
+  paymentCode?: boolean
   borrowDate?: boolean
   dueDate?: boolean
   returnDate?: boolean
@@ -817,6 +853,7 @@ export type BorrowRecordSelectScalar = {
   id?: boolean
   userId?: boolean
   bookId?: boolean
+  paymentCode?: boolean
   borrowDate?: boolean
   dueDate?: boolean
   returnDate?: boolean
@@ -826,7 +863,7 @@ export type BorrowRecordSelectScalar = {
   status?: boolean
 }
 
-export type BorrowRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "bookId" | "borrowDate" | "dueDate" | "returnDate" | "paymentMethod" | "amount" | "fineAmount" | "status", ExtArgs["result"]["borrowRecord"]>
+export type BorrowRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "bookId" | "paymentCode" | "borrowDate" | "dueDate" | "returnDate" | "paymentMethod" | "amount" | "fineAmount" | "status", ExtArgs["result"]["borrowRecord"]>
 export type BorrowRecordInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   book?: boolean | Prisma.BookDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -842,6 +879,7 @@ export type $BorrowRecordPayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     userId: string
     bookId: string
+    paymentCode: string | null
     borrowDate: Date
     dueDate: Date
     returnDate: Date | null
@@ -1223,6 +1261,7 @@ export interface BorrowRecordFieldRefs {
   readonly id: Prisma.FieldRef<"BorrowRecord", 'String'>
   readonly userId: Prisma.FieldRef<"BorrowRecord", 'String'>
   readonly bookId: Prisma.FieldRef<"BorrowRecord", 'String'>
+  readonly paymentCode: Prisma.FieldRef<"BorrowRecord", 'String'>
   readonly borrowDate: Prisma.FieldRef<"BorrowRecord", 'DateTime'>
   readonly dueDate: Prisma.FieldRef<"BorrowRecord", 'DateTime'>
   readonly returnDate: Prisma.FieldRef<"BorrowRecord", 'DateTime'>

@@ -1,11 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
-
-interface BorrowFormProps {
-  pricePerDay: number;
-}
+import { PaymentQRModal } from "@/src/components/users/borrow/PaymentQrModal";
+import { X } from "lucide-react";
 
 export default function BorrowForm({
   bookId,
@@ -18,8 +17,11 @@ export default function BorrowForm({
 }) {
   const [rentDays, setRentDays] = useState<number>(7);
   const [payMethod, setPayMethod] = useState<string>("CASH");
-  const [createdRecord, setCreatedRecord] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+
+  // 🌟 State quản lý Popup hiển thị QR
+  const [showQRModal, setShowQRModal] = useState(false);
+  const [qrData, setQrData] = useState<any>(null);
 
   const currentTotalCost = rentDays * pricePerDay;
 
@@ -30,19 +32,39 @@ export default function BorrowForm({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: "user-123",
-          bookId: "book-abc",
+          userId: userId, // 🌟 ĐÃ SỬA: Lấy đúng biến userId từ props truyền xuống
+          bookId: bookId, // 🌟 ĐÃ SỬA: Lấy đúng biến bookId từ props truyền xuống
           rentDays,
-          paymentMethod: payMethod,
+          paymentMethod: payMethod, // Sẽ gửi "CASH" hoặc "BANK_TRANSFER"
         }),
       });
+
       const result = await res.json();
-      if (result.success) setCreatedRecord(result.data);
-      else alert(result.error);
+
+      if (result.success) {
+        if (payMethod === "BANK_TRANSFER") {
+          // Thêm log kiểm tra xem server có thực sự trả về link ảnh QR không
+          if (result.data?.qrCodeUrl) {
+            setQrData(result.data);
+            setShowQRModal(true);
+          } else {
+            alert(
+              "⚠️ Lỗi hệ thống: Đăng ký thành công mã BANK_TRANSFER nhưng máy chủ quên sinh mã QR Code!"
+            );
+          }
+        } else {
+          alert(
+            result.message || "Đăng ký thành công! Vui lòng ra quầy nhận sách."
+          );
+        }
+      } else {
+        alert("Thất bại: " + result.error);
+      }
     } catch (e) {
-      alert("Lỗi kết nối mạng!");
+      alert("Lỗi kết nối mạng đến hệ thống!");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -55,6 +77,7 @@ export default function BorrowForm({
         {pricePerDay ? pricePerDay.toLocaleString() : "0"}đ / ngày
       </div>
 
+      {/* Lựa chọn số ngày mượn */}
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Số ngày muốn mượn:
@@ -79,6 +102,7 @@ export default function BorrowForm({
         </select>
       </div>
 
+      {/* Lựa chọn phương thức thanh toán */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Phương thức thanh toán:
@@ -109,6 +133,7 @@ export default function BorrowForm({
         </div>
       </div>
 
+      {/* Hiển thị chi phí tạm tính */}
       <div className="flex justify-between items-center bg-gray-50 p-4 rounded-xl mb-6 border border-dashed">
         <span className="text-sm font-medium text-gray-500">
           Tổng chi phí tạm tính:
@@ -118,6 +143,7 @@ export default function BorrowForm({
         </span>
       </div>
 
+      {/* Nút kích hoạt xác nhận */}
       <button
         onClick={handleRegisterBorrow}
         disabled={loading}
@@ -126,35 +152,27 @@ export default function BorrowForm({
         {loading ? "Đang xử lý..." : "Xác Nhận Đăng Ký Mượn Sách"}
       </button>
 
-      {createdRecord && (
-        <div className="mt-6 p-4 border border-green-200 bg-green-50/50 rounded-xl">
-          {createdRecord.qrCodeUrl ? (
-            <div className="text-center">
-              <img
-                src={createdRecord.qrCodeUrl}
-                alt="VietQR"
-                className="w-48 h-48 mx-auto border p-2 bg-white rounded-lg shadow-sm mb-2"
-              />
-              <p className="text-xs text-gray-500 font-mono">
-                Nội dung CK:{" "}
-                <span className="font-bold text-red-600">
-                  {createdRecord.description}
-                </span>
-              </p>
-              <button
-                onClick={() =>
-                  alert("🎉 Đã nhận thành công số tiền mượn sách!")
-                }
-                className="mt-4 text-xs bg-green-600 text-white font-medium py-1.5 px-3 rounded-lg hover:bg-green-700"
-              >
-                ⚙️ Giả lập ngân hàng báo thành công
-              </button>
-            </div>
-          ) : (
-            <p className="text-sm text-gray-700 font-medium bg-white p-3 rounded-lg border">
-              {createdRecord.message}
-            </p>
-          )}
+      {/* 🌟 POPUP KHI CLICK CHỌN THANH TOÁN QR - SẼ ĐÈ LÊN TOÀN MÀN HÌNH */}
+      {showQRModal && qrData && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="relative w-full max-w-md">
+            {/* Nút bấm đóng Popup */}
+            <button
+              onClick={() => setShowQRModal(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1.5 rounded-full hover:bg-slate-100 z-10 transition-all"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Gọi Cấu phần Modal QR Code thật của bạn */}
+            <PaymentQRModal
+              recordId={qrData.id}
+              qrCodeUrl={qrData.qrCodeUrl}
+              description={qrData.description}
+              amount={qrData.amount}
+              onClose={() => setShowQRModal(false)}
+            />
+          </div>
         </div>
       )}
     </div>

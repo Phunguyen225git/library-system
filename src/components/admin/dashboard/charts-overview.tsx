@@ -47,7 +47,7 @@ export function ChartsOverview() {
           </CardDescription>
         </CardHeader>
         <CardContent className="h-80 pl-0">
-          <ResponsiveContainer className="w-100% h-100%">
+          <ResponsiveContainer className="w-100% h-87.5">
             <BarChart
               data={borrowTrendData}
               margin={{ top: 10, right: 10, left: -10, bottom: 0 }}

@@ -72,7 +72,7 @@ export function RecentActivities() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-border text-xs uppercase font-bold text-muted-foreground tracking-wider">
-                {" "}
+                {/* {" "} */}
                 <th className="pb-3 pl-2">Độc giả</th>
                 <th className="pb-3">Cuốn sách</th>
                 <th className="pb-3">Loại giao dịch</th>

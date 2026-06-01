@@ -4,6 +4,8 @@ import BookDetail from "@/src/components/users/borrow/BookDetail";
 import BorrowForm from "@/src/components/users/borrow/BorrowForm";
 import CountdownWidget from "@/src/components/users/borrow/CountdownWidget";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth"; // 🌟 THÊM DÒNG NÀY
+import { authOptions } from "@/src/app/api/auth/[...nextauth]/route"; // 🌟 Đường dẫn tới authOptions của bạn (sửa lại cho đúng thư mục dự án)
 
 interface PageProps {
   searchParams: Promise<{ bookId?: string }>;
@@ -15,10 +17,17 @@ export default async function BorrowRegistrationPage({
   const { bookId } = await searchParams;
 
   if (!bookId) {
-    redirect("/books"); // Hoặc trang kho sách của bạn
+    redirect("borrow");
   }
 
-  // 🌟 Gọi đúng thực thể prisma gốc kết nối MariaDB
+  // 1. 🌟 LẤY SESSION NGƯỜI DÙNG ĐANG ĐĂNG NHẬP THẬT
+  const session = await getServerSession(authOptions);
+
+  // Nếu chưa đăng nhập, đá họ về trang login luôn
+  if (!session || !session.user) {
+    redirect("/api/auth/signin"); // Hoặc trang /login của bạn
+  }
+
   const book = await prisma.book.findUnique({
     where: { id: bookId },
   });
@@ -40,7 +49,12 @@ export default async function BorrowRegistrationPage({
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           <BookDetail book={book} />
-          <BorrowForm bookId={book.id} pricePerDay={book.pricePerDay ?? 2000} />
+          {/* 🌟 TRUYỀN ID THẬT: Lấy chuẩn đét cái ID từ tài khoản đang đăng nhập */}
+          <BorrowForm
+            bookId={book.id}
+            pricePerDay={book.pricePerDay ?? 2000}
+            userId={session.user.id}
+          />
         </div>
         <div className="lg:col-span-1">
           <CountdownWidget />

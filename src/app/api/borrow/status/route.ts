@@ -1,67 +1,46 @@
-// src/app/api/borrow/status/route.ts
+// src/app/api/borrows/stats/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id"); // Lấy cái ID phiếu mượn gửi lên từ trình duyệt
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    if (!id) {
-      return NextResponse.json(
-        { error: "Thiếu ID đơn hàng!" },
-        { status: 400 }
-      );
-    }
+    // Chạy song song cả 3 lệnh đếm để tối ưu hiệu năng Database
+    const [totalBorrows, newBorrowsThisWeek, totalOverdue] = await Promise.all([
+      // Thẻ 3: Đếm những sách THỰC SỰ đang ở bên ngoài (Chưa được trả)
+      prisma.borrowRecord.count({
+        where: { status: "BORROWED" },
+      }),
 
-    // Tìm kiếm trong MariaDB xem đơn này trạng thái là gì
-    const record = await prisma.borrowRecord.findUnique({
-      where: { id },
+      // Thẻ 3 (Phần text nhỏ): Đếm số lượt mượn mới phát sinh trong vòng 7 ngày qua
+      prisma.borrowRecord.count({
+        where: {
+          createdAt: {
+            gte: sevenDaysAgo,
+          },
+        },
+      }),
+
+      // Thẻ 4: Đếm số lượng đơn đang bị gắn cờ quá hạn vi phạm
+      prisma.borrowRecord.count({
+        where: { status: "OVERDUE_PENDING_FINE" }, // Hãy đảm bảo chữ này khớp với Enum Status trong schema.prisma của bạn
+      }),
+    ]);
+
+    // Trả về đầy đủ 3 trường dữ liệu cho Frontend nhận
+    return NextResponse.json({
+      success: true,
+      totalBorrows,
+      newBorrowsThisWeek,
+      totalOverdue, // 🌟 Đã bổ sung trường bị thiếu
     });
-
-    if (!record) {
-      return NextResponse.json(
-        { error: "Không tìm thấy đơn hàng!" },
-        { status: 404 }
-      );
-    }
-
-    // Trả về toàn bộ bản ghi (trong đó có chứa trường status)
-    return NextResponse.json(record);
   } catch (error) {
-    return NextResponse.json({ error: "Lỗi hệ thống Server" }, { status: 500 });
+    console.error("❌ Lỗi API thống kê borrows:", error);
+    return NextResponse.json(
+      { success: false, error: "Lỗi tính toán dữ liệu hệ thống" },
+      { status: 500 }
+    );
   }
 }
-// // src/app/api/borrow/status/route.ts
-// import { NextResponse } from "next/server";
-// import { prisma } from "@/lib/prisma";
-
-// export async function GET(req: Request) {
-//   try {
-//     const { searchParams } = new URL(req.url);
-//     const id = searchParams.get("id");
-
-//     if (!id) {
-//       return NextResponse.json(
-//         { error: "Thiếu ID đơn hàng!" },
-//         { status: 400 }
-//       );
-//     }
-
-//     const record = await prisma.borrowRecord.findUnique({
-//       where: { id },
-//       include: { book: true, user: true }, // Kèm thông tin sách và user
-//     });
-
-//     if (!record) {
-//       return NextResponse.json(
-//         { error: "Không tìm thấy đơn hàng!" },
-//         { status: 404 }
-//       );
-//     }
-
-//     return NextResponse.json(record);
-//   } catch (error) {
-//     return NextResponse.json({ error: "Lỗi hệ thống" }, { status: 500 });
-//   }
-// }

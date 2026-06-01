@@ -3,27 +3,36 @@ import "dotenv/config";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { PrismaClient } from "../src/generated/prisma/client";
 
-// Khởi tạo Singleton để tránh lỗi Too many connections khi dev trong Next.js
+// Đảm bảo ép Next.js hiểu đây là môi trường dev nếu không có định nghĩa rõ ràng
+const isDev =
+  process.env.NODE_ENV !== "production" ||
+  process.env.NEXT_PUBLIC_ENV === "development";
+
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
 const createPrismaClient = () => {
-  // Trả lại nguyên bản cách khởi tạo adapter của bạn
   const adapter = new PrismaMariaDb({
     host: process.env.DATABASE_HOST as string,
     user: process.env.DATABASE_USER as string,
     password: process.env.DATABASE_PASSWORD as string,
     database: process.env.DATABASE_NAME as string,
-    connectionLimit: 5,
+    // 🌟 SỬA TẠI ĐÂY: Nâng lên 20 kết nối để phục vụ các câu lệnh Promise.all song song
+    connectionLimit: 20,
+    allowPublicKeyRetrieval: true,
+    ssl: false,
   });
 
-  return new PrismaClient({ adapter });
+  return new PrismaClient({
+    adapter,
+    // Hiện log lỗi chi tiết ra terminal khi dev để dễ bắt bệnh
+    log: isDev ? ["error", "warn"] : ["error"],
+  });
 };
 
-// Nếu đã có sẵn instance thì dùng lại, nếu chưa thì tạo mới
+// Áp dụng cơ chế kiểm tra Singleton nghiêm ngặt
 export const prisma = globalForPrisma.prisma || createPrismaClient();
 
-// Trong môi trường dev, lưu instance vào biến global
-if (process.env.NODE_ENV !== "production") {
+if (isDev) {
   globalForPrisma.prisma = prisma;
 }
 // import "dotenv/config";

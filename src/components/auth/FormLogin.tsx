@@ -1,6 +1,5 @@
 // src/components/auth/login-form.tsx
 "use client";
-
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -8,7 +7,6 @@ import { z } from "zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import {
@@ -65,7 +63,7 @@ export function LoginForm() {
     if (res?.error) {
       setError(res.error);
     } else {
-      router.push("/");
+      router.push("/user/dashboard");
       router.refresh();
     }
   }

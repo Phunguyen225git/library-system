@@ -33,10 +33,10 @@ export async function POST(req: Request) {
             data: { status: "BORROWED" }, // Hoặc "PAID_AWAITING_PICKUP" tùy quy trình của bạn
           }),
           // 2. Trừ bớt 1 cuốn sách trong kho vì thanh toán online thành công
-          prisma.book.update({
-            where: { id: borrowRecord.bookId },
-            data: { available: { decrement: 1 } },
-          }),
+          //   prisma.book.update({
+          //     where: { id: borrowRecord.bookId },
+          //     data: { available: { decrement: 1 } },
+          //   }),
         ]);
         console.log(`✅ Đã duyệt tự động cho đơn hàng: ${paymentCode}`);
       }
